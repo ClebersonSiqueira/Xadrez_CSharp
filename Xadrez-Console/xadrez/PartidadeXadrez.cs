@@ -5,14 +5,14 @@ using tabuleiro;
 
 namespace xadrez
 {
-    class PartidadeXadrez
+    class PartidaDeXadrez
     {
         public Tabuleiro tab { get; private set; }
-        public bool terminada { get; set; }
-        private int turno;
-        private Cor jogadorAtual;
+        public bool terminada { get; private set; }
+        public int turno { get; set; }
+        public Cor jogadorAtual { get; private set; }
 
-        public PartidadeXadrez()
+        public PartidaDeXadrez()
         {
             tab = new Tabuleiro(8, 8);
             turno = 1;
@@ -27,6 +27,38 @@ namespace xadrez
             p.incrementarQteMovimentos();
             Peca pecaCapiturada = tab.retirarPeca(destino);
             tab.colocarPeca(p, destino);
+        }
+
+        public void realizaJogada(Posicao origem, Posicao destino){
+            executaMovimento(origem, destino);
+            turno++;
+            mudaJogador();
+        }
+
+        public void validaPosicaoDeOrigem(Posicao pos)
+        {
+            if (tab.peca(pos) == null)
+                throw new TabuleiroException("Nao existe pecas nestas cordenadas");
+            if (jogadorAtual != tab.peca(pos).cor)
+                throw new TabuleiroException("A peca escolhida nao é sua");
+            if (!tab.peca(pos).existeMovimentosPossiveis())
+                throw new TabuleiroException("Nao ha movimentos para a peca escolhida");
+        }
+
+        public void validarPosicaoDeDestino(Posicao origem, Posicao destino)
+        {
+            if (!tab.peca(origem).podeMoverPara(destino))
+            {
+                throw new TabuleiroException("Destino invalido");
+            }
+        }
+
+        private void mudaJogador()
+        {
+            if (jogadorAtual == Cor.Branca)
+                jogadorAtual = Cor.Amarela;
+            else
+                jogadorAtual = Cor.Branca;
         }
 
         private void colocarPecas()
