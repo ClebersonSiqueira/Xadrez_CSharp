@@ -8,6 +8,8 @@ namespace Xadrez_Console
 {
     class Tela
     {
+
+       
         public static void imprimirPartida(PartidaDeXadrez partida)
         {
             Tela.imprimirTabuleiro(partida.tab);
@@ -15,11 +17,20 @@ namespace Xadrez_Console
             imprimirPecasCapturadas(partida);
             Console.WriteLine();
             Console.WriteLine("Turno: " + partida.turno);
-            Console.WriteLine("Aguardando jogada do jogador " + partida.jogadorAtual);
-            if (partida.xeque)
+            if (!partida.terminada)
             {
-                Console.WriteLine("Xeque");
+                Console.WriteLine("Aguardando jogada do jogador " + partida.jogadorAtual);
+                if (partida.xeque)
+                {
+                    Console.WriteLine("Jogador esta em Xeque");
+                }
             }
+            else
+            {
+                Console.WriteLine("XEQUEMATE!");
+                Console.WriteLine("Vencedor: " + partida.jogadorAtual);
+            }
+            
         }
 
         public static void imprimirPecasCapturadas(PartidaDeXadrez partida)
