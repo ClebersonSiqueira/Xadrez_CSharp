@@ -9,6 +9,7 @@ namespace Xadrez_Console
     {
         static void Main(string[] args)
         {
+
             try
             {
                 AppDomain currentDomain = AppDomain.CurrentDomain;
@@ -18,14 +19,16 @@ namespace Xadrez_Console
 
                 while (!partida.terminada)
                 {
+
                     try
                     {
                         Console.Clear();
                         Tela.imprimirPartida(partida);
+
                         Console.WriteLine();
                         Console.Write("Origem: ");
                         Posicao origem = Tela.lerPosicaoXadrez().toPosicao();
-                        partida.validaPosicaoDeOrigem(origem);
+                        partida.validarPosicaoDeOrigem(origem);
 
                         bool[,] posicoesPossiveis = partida.tab.peca(origem).movimentosPossiveis();
 
@@ -66,6 +69,7 @@ namespace Xadrez_Console
                 Log.Error(e.Message, e);
                 Console.ReadLine();
             }
+
             Console.ReadLine();
         }
 

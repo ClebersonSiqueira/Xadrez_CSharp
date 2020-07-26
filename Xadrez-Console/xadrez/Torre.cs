@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using tabuleiro;
+﻿using tabuleiro;
 
 namespace xadrez
 {
     class Torre : Peca
     {
-        public Torre(Tabuleiro tab, Cor cor) : base(cor, tab)
+
+        public Torre(Tabuleiro tab, Cor cor) : base(tab, cor)
         {
         }
+
         public override string ToString()
         {
             return "T";
@@ -24,10 +23,10 @@ namespace xadrez
         public override bool[,] movimentosPossiveis()
         {
             bool[,] mat = new bool[tab.linhas, tab.colunas];
+
             Posicao pos = new Posicao(0, 0);
 
-
-            //posicao de cima
+            // acima
             pos.definirValores(posicao.linha - 1, posicao.coluna);
             while (tab.posicaoValida(pos) && podeMover(pos))
             {
@@ -39,7 +38,7 @@ namespace xadrez
                 pos.linha = pos.linha - 1;
             }
 
-            //posicao de baixo
+            // abaixo
             pos.definirValores(posicao.linha + 1, posicao.coluna);
             while (tab.posicaoValida(pos) && podeMover(pos))
             {
@@ -51,7 +50,7 @@ namespace xadrez
                 pos.linha = pos.linha + 1;
             }
 
-            //posicao da direita
+            // direita
             pos.definirValores(posicao.linha, posicao.coluna + 1);
             while (tab.posicaoValida(pos) && podeMover(pos))
             {
@@ -63,7 +62,7 @@ namespace xadrez
                 pos.coluna = pos.coluna + 1;
             }
 
-            //posicao da esquerda
+            // esquerda
             pos.definirValores(posicao.linha, posicao.coluna - 1);
             while (tab.posicaoValida(pos) && podeMover(pos))
             {
@@ -74,6 +73,7 @@ namespace xadrez
                 }
                 pos.coluna = pos.coluna - 1;
             }
+
             return mat;
         }
     }
