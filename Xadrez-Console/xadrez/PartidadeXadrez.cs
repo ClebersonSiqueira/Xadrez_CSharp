@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using tabuleiro;
+using Xadrez_Console.Logs;
 
 namespace xadrez
 {
@@ -39,6 +40,8 @@ namespace xadrez
             {
                 capturadas.Add(pecaCapturada);
             }
+
+            Log.Info($"{jogadorAtual} fez uma jogada Peça:{p.Nome()} {origem} -> {destino}");
             return pecaCapturada;
         }
 
@@ -82,8 +85,6 @@ namespace xadrez
 
             
         }
-
-        
 
         public void validaPosicaoDeOrigem(Posicao pos)
         {

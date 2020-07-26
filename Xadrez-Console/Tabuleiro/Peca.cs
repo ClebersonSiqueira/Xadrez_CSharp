@@ -51,6 +51,11 @@ namespace tabuleiro
         }
 
         public abstract bool[,] movimentosPossiveis();
+
+        public string Nome()
+        {
+            return GetType().Name;
+        }
         
     }
 }
