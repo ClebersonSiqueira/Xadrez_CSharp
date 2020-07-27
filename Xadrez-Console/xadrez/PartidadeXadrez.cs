@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using tabuleiro;
-//using Xadrez_Console.Logs;
+using System;
+using Xadrez_Console.Logs;
 
 namespace xadrez
 {
@@ -66,7 +67,7 @@ namespace xadrez
             
 
 
-            //Log.Info($"{jogadorAtual} fez uma jogada Peça:{p.Nome()} {origem} -> {destino}");
+            Log.Info($"{jogadorAtual} fez uma jogada Peça:{p.Nome()} {origem} -> {destino}");
             return pecaCapturada;
         }
 
@@ -112,6 +113,7 @@ namespace xadrez
                     posP = new Posicao(4, destino.coluna);
                 tab.colocarPeca(peao, posP);
             }
+
         }
 
         public void realizaJogada(Posicao origem, Posicao destino)
@@ -124,6 +126,48 @@ namespace xadrez
                 throw new TabuleiroException("Você não pode se colocar em xeque!");
             }
 
+            Peca p = tab.peca(destino);
+
+            //#jogadaEspecial Prmocao
+            if((p.cor == Cor.Branca && destino.linha == 0) || (p.cor == Cor.Amarela && destino.linha == 7))
+            {
+                Console.WriteLine("Deseja transformar seu Peao em qual Peca? D/C/T/B");
+                char resposta = char.Parse(Console.ReadLine());
+                if(resposta == 'd') {
+                    p = tab.retirarPeca(destino);
+                    pecas.Remove(p);
+                    Peca dama = new Dama(tab, p.cor);
+                    tab.colocarPeca(dama, destino);
+                    pecas.Add(dama);
+                }
+                else if (resposta == 'c')
+                {
+                    p = tab.retirarPeca(destino);
+                    pecas.Remove(p);
+                    Peca cavalo = new Cavalo(tab, p.cor);
+                    tab.colocarPeca(cavalo, destino);
+                    pecas.Add(cavalo);
+                }
+                else if (resposta == 't')
+                {
+                    p = tab.retirarPeca(destino);
+                    pecas.Remove(p);
+                    Peca torre = new Torre(tab, p.cor);
+                    tab.colocarPeca(torre, destino);
+                    pecas.Add(torre);
+                }
+                else
+                {
+                    p = tab.retirarPeca(destino);
+                    pecas.Remove(p);
+                    Peca bispo = new Bispo(tab, p.cor);
+                    tab.colocarPeca(bispo, destino);
+                    pecas.Add(bispo);
+                }
+
+
+            }
+
             if (estaEmXeque(adversaria(jogadorAtual)))
             {
                 xeque = true;
@@ -132,6 +176,8 @@ namespace xadrez
             {
                 xeque = false;
             }
+
+
 
             if (testeXequemate(adversaria(jogadorAtual)))
             {
@@ -142,7 +188,7 @@ namespace xadrez
                 turno++;
                 mudaJogador();
             }
-            Peca p = tab.peca(destino);
+            
 
             //#JogadaEspecial En Passant
             if (p is Peao && destino.linha == origem.linha - 2 || destino.linha == origem.linha + 2)
