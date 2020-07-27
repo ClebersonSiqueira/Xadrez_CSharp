@@ -129,43 +129,52 @@ namespace xadrez
             Peca p = tab.peca(destino);
 
             //#jogadaEspecial Prmocao
-            if((p.cor == Cor.Branca && destino.linha == 0) || (p.cor == Cor.Amarela && destino.linha == 7))
+            if ((p.cor == Cor.Branca && destino.linha == 0) || (p.cor == Cor.Amarela && destino.linha == 7))
             {
-                Console.WriteLine("Deseja transformar seu Peao em qual Peca? D/C/T/B");
-                char resposta = char.Parse(Console.ReadLine());
-                if(resposta == 'd') {
-                    p = tab.retirarPeca(destino);
-                    pecas.Remove(p);
-                    Peca dama = new Dama(tab, p.cor);
-                    tab.colocarPeca(dama, destino);
-                    pecas.Add(dama);
-                }
-                else if (resposta == 'c')
+                bool pergunta = false;
+                while (!pergunta)
                 {
-                    p = tab.retirarPeca(destino);
-                    pecas.Remove(p);
-                    Peca cavalo = new Cavalo(tab, p.cor);
-                    tab.colocarPeca(cavalo, destino);
-                    pecas.Add(cavalo);
+                    Console.WriteLine("Deseja transformar seu Peao em qual Peca? D/C/T/B");
+                    char resposta = char.Parse(Console.ReadLine());
+                    if (resposta == 'd' || resposta == 'D')
+                    {
+                        p = tab.retirarPeca(destino);
+                        pecas.Remove(p);
+                        Peca dama = new Dama(tab, p.cor);
+                        tab.colocarPeca(dama, destino);
+                        pecas.Add(dama);
+                        pergunta = true;
+                    }
+                    else if (resposta == 'c' || resposta == 'C')
+                    {
+                        p = tab.retirarPeca(destino);
+                        pecas.Remove(p);
+                        Peca cavalo = new Cavalo(tab, p.cor);
+                        tab.colocarPeca(cavalo, destino);
+                        pecas.Add(cavalo);
+                        pergunta = true;
+                    }
+                    else if (resposta == 't' || resposta == 'T')
+                    {
+                        p = tab.retirarPeca(destino);
+                        pecas.Remove(p);
+                        Peca torre = new Torre(tab, p.cor);
+                        tab.colocarPeca(torre, destino);
+                        pecas.Add(torre);
+                        pergunta = true;
+                    }
+                    else if (resposta == 'b' || resposta == 'B')
+                    {
+                        p = tab.retirarPeca(destino);
+                        pecas.Remove(p);
+                        Peca bispo = new Bispo(tab, p.cor);
+                        tab.colocarPeca(bispo, destino);
+                        pecas.Add(bispo);
+                        pergunta = true;
+                    }
+                    else
+                        Console.WriteLine("Opcao invalida");
                 }
-                else if (resposta == 't')
-                {
-                    p = tab.retirarPeca(destino);
-                    pecas.Remove(p);
-                    Peca torre = new Torre(tab, p.cor);
-                    tab.colocarPeca(torre, destino);
-                    pecas.Add(torre);
-                }
-                else
-                {
-                    p = tab.retirarPeca(destino);
-                    pecas.Remove(p);
-                    Peca bispo = new Bispo(tab, p.cor);
-                    tab.colocarPeca(bispo, destino);
-                    pecas.Add(bispo);
-                }
-
-
             }
 
             if (estaEmXeque(adversaria(jogadorAtual)))
