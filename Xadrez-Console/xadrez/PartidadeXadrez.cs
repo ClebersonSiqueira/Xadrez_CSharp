@@ -67,7 +67,7 @@ namespace xadrez
             
 
 
-            Log.Info($"{jogadorAtual} fez uma jogada Peça:{p.Nome()} {origem} -> {destino}");
+            LogWriter.Info($"{jogadorAtual} fez uma jogada Peça:{p.Nome()} {origem} -> {destino}");
             return pecaCapturada;
         }
 

@@ -44,13 +44,13 @@ namespace Xadrez_Console
                     }
                     catch (TabuleiroException e)
                     {
-                        Log.Error(e.Message, e);
+                        LogWriter.Error(e.Message, e);
                         Console.WriteLine(e.Message);
                         Console.ReadLine();
                     }
                     catch (Exception e)
                     {
-                        Log.Error(e.Message, e);
+                        LogWriter.Error(e.Message, e);
                         Console.WriteLine(e.Message);
                         Console.ReadLine();
                     }
@@ -61,12 +61,12 @@ namespace Xadrez_Console
             catch (TabuleiroException e)
             {
                 Console.WriteLine(e.Message);
-                Log.Error(e.Message, e);
+                LogWriter.Error(e.Message, e);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                Log.Error(e.Message, e);
+                LogWriter.Error(e.Message, e);
                 Console.ReadLine();
             }
 
@@ -76,7 +76,7 @@ namespace Xadrez_Console
         static void MyHandler(object sender, UnhandledExceptionEventArgs args)
         {
             Exception e = (Exception)args.ExceptionObject;
-            Log.FatalError(e.Message, e);
+            LogWriter.FatalError(e.Message, e);
             Console.WriteLine("MyHandler caught : " + e.Message);
             Console.WriteLine("Runtime terminating: {0}", args.IsTerminating);
         }
