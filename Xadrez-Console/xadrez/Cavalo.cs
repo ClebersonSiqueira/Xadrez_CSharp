@@ -21,6 +21,11 @@ namespace xadrez
             return p == null || p.cor != cor;
         }
 
+
+        /// <summary>
+        /// Metodo responsavel por definir os movimentos o qual a peca pode realizar
+        /// </summary>
+        /// <returns></returns>
         public override bool[,] movimentosPossiveis()
         {
             bool[,] mat = new bool[tab.linhas, tab.colunas];

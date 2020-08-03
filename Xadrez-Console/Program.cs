@@ -5,6 +5,9 @@ using Xadrez_Console.Logs;
 
 namespace Xadrez_Console
 {
+    /// <summary>
+    /// Classe responsavel por iniciar e instanciar os recursos iniciais do programa
+    /// </summary>
     class Program
     {
         static void Main(string[] args)
@@ -29,6 +32,7 @@ namespace Xadrez_Console
                         Console.Write("Origem: ");
                         Posicao origem = Tela.lerPosicaoXadrez().toPosicao();
                         partida.validarPosicaoDeOrigem(origem);
+                        
 
                         bool[,] posicoesPossiveis = partida.tab.peca(origem).movimentosPossiveis();
 
@@ -48,6 +52,12 @@ namespace Xadrez_Console
                         Console.WriteLine(e.Message);
                         Console.ReadLine();
                     }
+                    catch (IndexOutOfRangeException e)
+                    {
+                        LogWriter.Error(e.Message, e);
+                        Console.WriteLine("Posição inválida!");
+                        Console.ReadLine();
+                    }
                     catch (Exception e)
                     {
                         LogWriter.Error(e.Message, e);
@@ -62,6 +72,13 @@ namespace Xadrez_Console
             {
                 Console.WriteLine(e.Message);
                 LogWriter.Error(e.Message, e);
+                Console.ReadLine();
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                LogWriter.Error(e.Message, e);
+                Console.WriteLine("Posição inválida!");
+                Console.ReadLine();
             }
             catch (Exception e)
             {

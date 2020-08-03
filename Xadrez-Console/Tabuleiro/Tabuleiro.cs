@@ -1,5 +1,9 @@
 ﻿namespace tabuleiro
 {
+
+    /// <summary>
+    /// Classe responsavel por instanciar um tabuleiro padrao
+    /// </summary>
     class Tabuleiro
     {
 

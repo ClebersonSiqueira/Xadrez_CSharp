@@ -4,6 +4,9 @@ namespace xadrez
 {
     class PosicaoXadrez
     {
+        /// <summary>
+        /// Classe responsavel por identificar a posicao no tabuleiro de um determinado comando e o transformando em uma posicao de lista, ex.: C2 = 2,1
+        /// </summary>
 
         public char coluna { get; set; }
         public int linha { get; set; }

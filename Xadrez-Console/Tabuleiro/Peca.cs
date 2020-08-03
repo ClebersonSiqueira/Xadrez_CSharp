@@ -1,5 +1,8 @@
 ﻿namespace tabuleiro
 {
+    /// <summary>
+    /// Classe Pai responsavel por definir o modelo basico de todas as pecas
+    /// </summary>
     abstract class Peca
     {
 
@@ -26,6 +29,10 @@
             qteMovimentos--;
         }
 
+        /// <summary>
+        /// Classe responsavel por verificar se existem movimentos possiveis para uma determinada peca peca
+        /// </summary>
+        /// <returns></returns>
         public bool existeMovimentosPossiveis()
         {
             bool[,] mat = movimentosPossiveis();

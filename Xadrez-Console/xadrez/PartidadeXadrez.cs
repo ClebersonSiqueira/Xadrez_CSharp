@@ -11,11 +11,12 @@ namespace xadrez
         public Tabuleiro tab { get; private set; }
         public int turno { get; private set; }
         public Cor jogadorAtual { get; private set; }
+        public Peca vulneravelEnPassant { get; private set; }
         public bool terminada { get; private set; }
         private HashSet<Peca> pecas;
         private HashSet<Peca> capturadas;
         public bool xeque { get; private set; }
-        public Peca vulneravelEnPassant { get; private set; }
+        
 
         public PartidaDeXadrez()
         {
@@ -29,7 +30,12 @@ namespace xadrez
             capturadas = new HashSet<Peca>();
             colocarPecas();
         }
-
+        /// <summary>
+        /// Metodo responsavel por Executar um movimento dados os comandos do jogador
+        /// </summary>
+        /// <param name="origem">Cordenadas de origem da peca selecionada pelo jogador</param>
+        /// <param name="destino">Cordenadas de destino escolhido pelo jogador</param>
+        /// <returns>Retorna a peca capturada para adicionar na lista de pecas capturadas</returns>
         public Peca executaMovimento(Posicao origem, Posicao destino)
         {
             Peca p = tab.retirarPeca(origem);
@@ -71,6 +77,12 @@ namespace xadrez
             return pecaCapturada;
         }
 
+        /// <summary>
+        /// Metodo responsavel por desfazer a ultima jogada, voltando o jogo ao estado anterior
+        /// </summary>
+        /// <param name="origem">Cordenadas de origem da peca selecionada pelo jogador</param>
+        /// <param name="destino">Cordenadas de destino escolhido pelo jogador</param>
+        /// <param name="pecaCapturada">Retorna a peca que foi capturada para ser retirada da lista de pecas capturadas</param>
         public void desfazMovimento(Posicao origem, Posicao destino, Peca pecaCapturada)
         {
             Peca p = tab.retirarPeca(destino);
@@ -116,6 +128,11 @@ namespace xadrez
 
         }
 
+        /// <summary>
+        /// metodo que executa a jogada passada pelo jogador e solicita confirmacoes de xeque e xequemate
+        /// </summary>
+        /// <param name="origem"></param>
+        /// <param name="destino"></param>
         public void realizaJogada(Posicao origem, Posicao destino)
         {
             Peca pecaCapturada = executaMovimento(origem, destino);
@@ -128,7 +145,7 @@ namespace xadrez
 
             Peca p = tab.peca(destino);
 
-            //#jogadaEspecial Prmocao
+            //#jogadaEspecial Promocao
             if ((p.cor == Cor.Branca && destino.linha == 0) || (p.cor == Cor.Amarela && destino.linha == 7))
             {
                 bool pergunta = false;
@@ -208,6 +225,10 @@ namespace xadrez
                 vulneravelEnPassant = null;
         }
 
+        /// <summary>
+        /// Metodo para validar se tem peca disponivel na posicao de origem
+        /// </summary>
+        /// <param name="pos">posicao passada pelo jogador</param>
         public void validarPosicaoDeOrigem(Posicao pos)
         {
             if (tab.peca(pos) == null)
@@ -222,8 +243,14 @@ namespace xadrez
             {
                 throw new TabuleiroException("Não há movimentos possíveis para a peça de origem escolhida!");
             }
+            
+                
         }
-
+        /// <summary>
+        /// Metodo responsavel por definir se é possivel mover a peca para a casa selecionada
+        /// </summary>
+        /// <param name="origem">posicao de origem passada pelo jogador</param>
+        /// <param name="destino">posicao de destino passada pelo jogador</param>
         public void validarPosicaoDeDestino(Posicao origem, Posicao destino)
         {
             if (!tab.peca(origem).movimentoPossivel(destino))
@@ -232,6 +259,9 @@ namespace xadrez
             }
         }
 
+        /// <summary>
+        /// Metodo que muda a vez do jogador
+        /// </summary>
         private void mudaJogador()
         {
             if (jogadorAtual == Cor.Branca)
@@ -244,6 +274,11 @@ namespace xadrez
             }
         }
 
+        /// <summary>
+        /// Metodo que define todas as pecas capturadas
+        /// </summary>
+        /// <param name="cor"></param>
+        /// <returns></returns>
         public HashSet<Peca> pecasCapturadas(Cor cor)
         {
             HashSet<Peca> aux = new HashSet<Peca>();
@@ -257,6 +292,11 @@ namespace xadrez
             return aux;
         }
 
+        /// <summary>
+        /// Metodo que define todas as pecas em jogo
+        /// </summary>
+        /// <param name="cor"></param>
+        /// <returns></returns>
         public HashSet<Peca> pecasEmJogo(Cor cor)
         {
             HashSet<Peca> aux = new HashSet<Peca>();
@@ -271,6 +311,11 @@ namespace xadrez
             return aux;
         }
 
+        /// <summary>
+        /// Metodo para identificar quem é o adversario do jogador atual
+        /// </summary>
+        /// <param name="cor"></param>
+        /// <returns></returns>
         private Cor adversaria(Cor cor)
         {
             if (cor == Cor.Branca)
@@ -283,6 +328,11 @@ namespace xadrez
             }
         }
 
+        /// <summary>
+        /// Metodo que localiza a peca da classe Rei
+        /// </summary>
+        /// <param name="cor"></param>
+        /// <returns></returns>
         private Peca rei(Cor cor)
         {
             foreach (Peca x in pecasEmJogo(cor))
@@ -295,6 +345,11 @@ namespace xadrez
             return null;
         }
 
+        /// <summary>
+        /// Metodo que identifica se o jogador esta em Xeque
+        /// </summary>
+        /// <param name="cor"></param>
+        /// <returns></returns>
         public bool estaEmXeque(Cor cor)
         {
             Peca R = rei(cor);
@@ -313,6 +368,11 @@ namespace xadrez
             return false;
         }
 
+        /// <summary>
+        /// Metodo que verifica que o jogador esta em XequeMat
+        /// </summary>
+        /// <param name="cor"></param>
+        /// <returns></returns>
         public bool testeXequemate(Cor cor)
         {
             if (!estaEmXeque(cor))
@@ -344,12 +404,22 @@ namespace xadrez
             return true;
         }
 
+        /// <summary>
+        /// Metodo que coloca uma nova peca no tabuleiro
+        /// </summary>
+        /// <param name="coluna"></param>
+        /// <param name="linha"></param>
+        /// <param name="peca"></param>
         public void colocarNovaPeca(char coluna, int linha, Peca peca)
         {
             tab.colocarPeca(peca, new PosicaoXadrez(coluna, linha).toPosicao());
             pecas.Add(peca);
         }
 
+
+        /// <summary>
+        /// Metodo utilizado para definir quais pecas e quais as pocisoes iniciais delas no tabuleiro
+        /// </summary>
         private void colocarPecas()
         {
            
